@@ -88,29 +88,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;color:#000;-web
 .s3 .ds-headline span{color:#E53935}
 .s3 .ds-desc{font-family:'Inter',sans-serif;font-size:14px;color:rgba(0,0,0,.35);line-height:1.6;margin-bottom:32px;max-width:90%}
 
-/* Hub diagram */
-.hub-diagram{position:relative;width:360px;height:360px}
-.hub-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;background:#E53935;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:900;font-size:12px;letter-spacing:-.02em;z-index:3;color:#fff;box-shadow:0 0 40px rgba(229,57,53,.2)}
-.hub-node{position:absolute;width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
-.hub-node .hn-icon{font-size:16px;margin-bottom:2px}
-.hub-node .hn-name{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.5;color:#000}
-.hub-node:nth-child(2){top:4px;left:50%;transform:translateX(-50%)}
-.hub-node:nth-child(3){top:22%;right:4px}
-.hub-node:nth-child(4){bottom:22%;right:4px}
-.hub-node:nth-child(5){bottom:4px;left:50%;transform:translateX(-50%)}
-.hub-node:nth-child(6){top:50%;left:4px;transform:translateY(-50%)}
+/* Hub diagram — CSS Grid based, no overflow */
+.hub-diagram{position:relative;width:100%;max-width:300px;aspect-ratio:1;margin:0 auto}
+.hub-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:68px;height:68px;background:#E53935;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:900;font-size:11px;letter-spacing:-.02em;z-index:3;color:#fff;box-shadow:0 0 30px rgba(229,57,53,.15)}
+.hub-node{position:absolute;width:52px;height:52px;border-radius:50%;background:#fafafa;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
+.hub-node .hn-icon{font-size:14px;margin-bottom:1px}
+.hub-node .hn-name{font-family:'Space Mono',monospace;font-size:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.5;color:#000}
+/* Pentagon layout: top, top-right, bottom-right, bottom-left, top-left */
+.hub-node.n1{top:0;left:50%;margin-left:-26px}
+.hub-node.n2{top:20%;right:0}
+.hub-node.n3{bottom:8%;right:8%}
+.hub-node.n4{bottom:8%;left:8%}
+.hub-node.n5{top:20%;left:0}
 .hub-lines{position:absolute;inset:0;z-index:1}
-.hub-lines line{stroke:rgba(0,0,0,.08);stroke-width:1}
+.hub-lines line{stroke:rgba(0,0,0,.1);stroke-width:1;stroke-dasharray:200;stroke-dashoffset:200}
 .slide.active .hub-lines line{animation:drawLine 1s ease forwards}
-.hub-lines line{stroke-dasharray:200;stroke-dashoffset:200}
 .slide.active .hub-lines line:nth-child(1){animation-delay:.3s}
 .slide.active .hub-lines line:nth-child(2){animation-delay:.4s}
 .slide.active .hub-lines line:nth-child(3){animation-delay:.5s}
 .slide.active .hub-lines line:nth-child(4){animation-delay:.6s}
 .slide.active .hub-lines line:nth-child(5){animation-delay:.7s}
-.hub-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;border:1px solid #E53935;animation:pulse 2s ease-in-out infinite;z-index:2}
-.hub-pulse:nth-of-type(2){width:120px;height:120px;animation-delay:.3s;opacity:.25}
-.hub-pulse:nth-of-type(3){width:160px;height:160px;animation-delay:.6s;opacity:.12}
+.hub-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid #E53935;animation:pulse 2s ease-in-out infinite;z-index:2}
+.hub-pulse.p1{width:68px;height:68px}
+.hub-pulse.p2{width:108px;height:108px;animation-delay:.3s;opacity:.2}
+.hub-pulse.p3{width:148px;height:148px;animation-delay:.6s;opacity:.1}
 
 /* ── S-Scenario (shared) ── */
 .sc{display:flex;flex-direction:column;height:calc(100% - 96px)}
@@ -253,22 +254,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;color:#000;-web
     </div>
     <div class="s3-right f1">
       <div class="hub-diagram">
-        <svg class="hub-lines" viewBox="0 0 360 360">
-          <line x1="180" y1="180" x2="180" y2="36"/>
-          <line x1="180" y1="180" x2="328" y2="112"/>
-          <line x1="180" y1="180" x2="328" y2="248"/>
-          <line x1="180" y1="180" x2="180" y2="324"/>
-          <line x1="180" y1="180" x2="36" y2="180"/>
+        <svg class="hub-lines" viewBox="0 0 300 300">
+          <line x1="150" y1="150" x2="150" y2="26"/>
+          <line x1="150" y1="150" x2="274" y2="86"/>
+          <line x1="150" y1="150" x2="250" y2="254"/>
+          <line x1="150" y1="150" x2="50" y2="254"/>
+          <line x1="150" y1="150" x2="26" y2="86"/>
         </svg>
-        <div class="hub-pulse"></div>
-        <div class="hub-pulse"></div>
-        <div class="hub-pulse"></div>
+        <div class="hub-pulse p1"></div>
+        <div class="hub-pulse p2"></div>
+        <div class="hub-pulse p3"></div>
         <div class="hub-center">AGENT</div>
-        <div class="hub-node"><div class="hn-icon">💬</div><div class="hn-name">Teams</div></div>
-        <div class="hub-node"><div class="hn-icon">🔍</div><div class="hn-name">Slack</div></div>
-        <div class="hub-node"><div class="hn-icon">📧</div><div class="hn-name">Outlook</div></div>
-        <div class="hub-node"><div class="hn-icon">📋</div><div class="hn-name">Linear</div></div>
-        <div class="hub-node"><div class="hn-icon">📊</div><div class="hn-name">Score</div></div>
+        <div class="hub-node n1"><div class="hn-icon">💬</div><div class="hn-name">Teams</div></div>
+        <div class="hub-node n2"><div class="hn-icon">🔍</div><div class="hn-name">Slack</div></div>
+        <div class="hub-node n3"><div class="hn-icon">📧</div><div class="hn-name">Outlook</div></div>
+        <div class="hub-node n4"><div class="hn-icon">📋</div><div class="hn-name">Linear</div></div>
+        <div class="hub-node n5"><div class="hn-icon">📊</div><div class="hn-name">Score</div></div>
       </div>
     </div>
   </div>
