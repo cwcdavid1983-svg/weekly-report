@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 3 — Change How We Work</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#fff;color:#000;-webkit-font-smoothing:antialiased}
+
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;overflow:hidden;padding:56px 8.333%}
+.slide.active{opacity:1;pointer-events:auto}
+
+#counter{position:fixed;bottom:32px;right:40px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:4px;z-index:1000;color:rgba(0,0,0,.15)}
+
+.label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:4px;color:#E53935}
+.section-label{margin-bottom:40px}
+.section-label .label{border-bottom:2px solid #E53935;padding-bottom:4px;display:inline-block}
+
+@keyframes slideR{0%{transform:translateX(-30px);opacity:0}60%{opacity:1}100%{transform:translateX(0);opacity:1}}
+@keyframes fadeIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:.9}}
+@keyframes drawLine{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
+
+.slide.active .a0{animation:slideR .65s cubic-bezier(.25,.1,.25,1) both}
+.slide.active .a1{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .1s both}
+.slide.active .a2{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .2s both}
+.slide.active .a3{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .3s both}
+.slide.active .a4{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .4s both}
+.slide.active .a5{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .5s both}
+.slide.active .a6{animation:slideR .65s cubic-bezier(.25,.1,.25,1) .6s both}
+.slide.active .f0{animation:fadeIn .8s cubic-bezier(.25,.1,.25,1) .15s both}
+.slide.active .f1{animation:fadeIn .8s cubic-bezier(.25,.1,.25,1) .3s both}
+.slide.active .f2{animation:fadeIn .8s cubic-bezier(.25,.1,.25,1) .45s both}
+.slide.active .f3{animation:fadeIn .8s cubic-bezier(.25,.1,.25,1) .6s both}
+
+/* Grid lines */
+.grid-overlay{position:fixed;inset:0;pointer-events:none;z-index:2}
+.grid-overlay .v{position:absolute;top:0;bottom:0;width:1px;background:#000}
+.grid-overlay .v:nth-child(1){left:8.333%;opacity:.035}
+.grid-overlay .v:nth-child(2){left:33.333%;opacity:.05}
+.grid-overlay .v:nth-child(3){left:50%;opacity:.035}
+.grid-overlay .v:nth-child(4){left:66.666%;opacity:.05}
+.grid-overlay .v:nth-child(5){left:91.666%;opacity:.035}
+
+/* Screenshot placeholder */
+.screenshot-placeholder{
+  background:rgba(0,0,0,.02);
+  border:1px dashed rgba(0,0,0,.12);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,.2);
+  overflow:hidden;position:relative;
+}
+.screenshot-placeholder .ph-icon{font-size:24px;margin-bottom:8px;opacity:.4}
+.screenshot-placeholder .ph-label{opacity:.5}
+.screenshot-placeholder img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:8px}
+
+/* ── S1 Title ── */
+.s1{display:flex;flex-direction:column;justify-content:center;height:100%}
+.s1 .phase-tag{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:6px;text-transform:uppercase;color:#E53935;margin-bottom:24px}
+.s1 .title-main{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(48px,6vw,88px);line-height:.92;text-transform:uppercase;letter-spacing:-.04em;margin-bottom:16px;color:#000}
+.s1 .title-sub{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(48px,6vw,88px);line-height:.92;text-transform:uppercase;letter-spacing:-.04em;color:#E53935}
+.s1 .author{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.2;margin-top:40px}
+.s1 .red-rule{position:absolute;bottom:16.666%;left:0;width:50%;height:3px;background:#E53935}
+
+/* ── S2 Background ── */
+.s2 .content{display:flex;flex-direction:column;justify-content:center;height:calc(100% - 96px)}
+.s2 .context-text{font-family:'Inter',sans-serif;font-size:clamp(18px,2.2vw,28px);font-weight:400;line-height:1.65;color:rgba(0,0,0,.45);max-width:75%}
+.s2 .context-text strong{font-weight:700;color:#000}
+.s2 .context-text em{font-style:normal;color:#E53935;font-weight:700}
+.s2 .phase-cards{display:flex;gap:0;margin-top:48px}
+.s2 .p-card{flex:1;padding:24px;border-top:2px solid rgba(0,0,0,.06)}
+.s2 .p-card.now{border-top:3px solid #E53935;background:rgba(229,57,53,.03)}
+.s2 .p-card-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.25;margin-bottom:10px}
+.s2 .p-card.now .p-card-label{opacity:1;color:#E53935}
+.s2 .p-card-title{font-family:'Inter',sans-serif;font-weight:900;font-size:15px;letter-spacing:-.02em;margin-bottom:8px;color:#000}
+.s2 .p-card-desc{font-family:'Inter',sans-serif;font-size:12px;line-height:1.6;opacity:.3}
+.s2 .p-card.now .p-card-desc{opacity:.55}
+
+/* ── S3 Data Sources ── */
+.s3-layout{display:flex;gap:48px;height:calc(100% - 96px);align-items:center}
+.s3-left{flex:1}
+.s3-right{flex:1;display:flex;align-items:center;justify-content:center}
+.s3 .ds-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);letter-spacing:-.03em;line-height:1.1;margin-bottom:12px;color:#000}
+.s3 .ds-headline span{color:#E53935}
+.s3 .ds-desc{font-family:'Inter',sans-serif;font-size:14px;color:rgba(0,0,0,.35);line-height:1.6;margin-bottom:32px;max-width:90%}
+
+/* Hub diagram — CSS Grid based, no overflow */
+.hub-diagram{position:relative;width:100%;max-width:400px;aspect-ratio:1;margin:0 auto}
+.hub-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:88px;height:88px;background:#E53935;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-weight:900;font-size:13px;letter-spacing:-.02em;z-index:3;color:#fff;box-shadow:0 0 30px rgba(229,57,53,.15)}
+.hub-node{position:absolute;width:64px;height:64px;border-radius:50%;background:#fafafa;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3}
+.hub-node .hn-icon{font-size:18px;margin-bottom:2px}
+.hub-node .hn-name{font-family:'Space Mono',monospace;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;opacity:.5;color:#000}
+/* Pentagon layout: top, top-right, bottom-right, bottom-left, top-left */
+.hub-node.n1{top:0;left:50%;margin-left:-32px}
+.hub-node.n2{top:20%;right:0}
+.hub-node.n3{bottom:8%;right:8%}
+.hub-node.n4{bottom:8%;left:8%}
+.hub-node.n5{top:20%;left:0}
+.hub-lines{position:absolute;inset:0;z-index:1}
+.hub-lines line{stroke:rgba(0,0,0,.1);stroke-width:1;stroke-dasharray:200;stroke-dashoffset:200}
+.slide.active .hub-lines line{animation:drawLine 1s ease forwards}
+.slide.active .hub-lines line:nth-child(1){animation-delay:.3s}
+.slide.active .hub-lines line:nth-child(2){animation-delay:.4s}
+.slide.active .hub-lines line:nth-child(3){animation-delay:.5s}
+.slide.active .hub-lines line:nth-child(4){animation-delay:.6s}
+.slide.active .hub-lines line:nth-child(5){animation-delay:.7s}
+.hub-pulse{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid #E53935;animation:pulse 2s ease-in-out infinite;z-index:2}
+.hub-pulse.p1{width:88px;height:88px}
+.hub-pulse.p2{width:140px;height:140px;animation-delay:.3s;opacity:.2}
+.hub-pulse.p3{width:190px;height:190px;animation-delay:.6s;opacity:.1}
+
+/* ── S-Scenario (shared) ── */
+.sc{display:flex;flex-direction:column;height:calc(100% - 96px)}
+.sc .sc-num{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#E53935;margin-bottom:8px}
+.sc .sc-title{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(24px,3vw,40px);letter-spacing:-.03em;line-height:1.1;margin-bottom:24px;color:#000}
+.sc .sc-cols{display:flex;gap:40px;flex:1;align-items:stretch}
+.sc .sc-col{flex:1;display:flex;flex-direction:column}
+.sc .sc-col-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px}
+.sc .sc-col.before .sc-col-label{opacity:.25}
+.sc .sc-col.after .sc-col-label{color:#E53935}
+.sc .sc-col-body{font-family:'Inter',sans-serif;font-size:14px;line-height:1.75;flex:1}
+.sc .sc-col.before .sc-col-body{color:rgba(0,0,0,.3)}
+.sc .sc-col.after .sc-col-body{color:rgba(0,0,0,.55)}
+.sc .sc-col-body strong{font-weight:700;color:rgba(0,0,0,.85)}
+.sc .sc-col-body .step{margin-bottom:12px;padding-left:16px;position:relative}
+.sc .sc-col-body .step::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;background:#E53935;border-radius:50%}
+.sc .sc-change{margin-top:auto;padding-top:16px;border-top:1px solid rgba(0,0,0,.06)}
+.sc .sc-change-label{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#E53935;margin-bottom:6px}
+.sc .sc-change-text{font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;color:rgba(0,0,0,.45)}
+.sc .sc-change-text strong{color:#000;font-weight:700}
+.sc .divider{width:1px;background:rgba(0,0,0,.06);flex-shrink:0}
+
+/* ── S-Scenario 2 (two directions) ── */
+.sc2{display:flex;flex-direction:column;height:calc(100% - 96px)}
+.sc2 .sc-num{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#E53935;margin-bottom:8px}
+.sc2 .sc-title{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(22px,2.8vw,36px);letter-spacing:-.03em;line-height:1.1;margin-bottom:12px;color:#000}
+.sc2 .sc-before{font-family:'Inter',sans-serif;font-size:13px;line-height:1.7;color:rgba(0,0,0,.3);margin-bottom:20px;max-width:80%}
+.sc2 .sc-before strong{color:rgba(0,0,0,.5)}
+.sc2 .sc-dirs{display:flex;gap:24px;flex:1}
+.sc2 .sc-dir{flex:1;padding:20px;border-top:3px solid rgba(0,0,0,.06);display:flex;flex-direction:column}
+.sc2 .sc-dir.dir-a{border-top-color:#E53935}
+.sc2 .sc-dir.dir-b{border-top-color:#6c5ce7}
+.sc2 .sc-dir-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.sc2 .sc-dir.dir-a .sc-dir-label{color:#E53935}
+.sc2 .sc-dir.dir-b .sc-dir-label{color:#6c5ce7}
+.sc2 .sc-dir-title{font-family:'Inter',sans-serif;font-weight:900;font-size:15px;letter-spacing:-.02em;margin-bottom:10px;color:#000}
+.sc2 .sc-dir-body{font-family:'Inter',sans-serif;font-size:12px;line-height:1.7;color:rgba(0,0,0,.45)}
+.sc2 .sc-dir-body strong{color:rgba(0,0,0,.8);font-weight:600}
+.sc2 .sc-dir-screenshot{margin-top:12px}
+.sc2 .sc-bottom{margin-top:auto;padding-top:16px;border-top:1px solid rgba(0,0,0,.06)}
+.sc2 .sc-bottom-text{font-family:'Inter',sans-serif;font-size:12px;line-height:1.6;color:rgba(0,0,0,.45)}
+.sc2 .sc-bottom-text strong{color:#000;font-weight:700}
+
+/* ── S-Scenario 4 Decision Flow ── */
+.sc4-flow{display:flex;align-items:center;gap:0;margin-top:8px;padding:20px 0}
+.sc4-node{padding:16px 20px;border-radius:6px;text-align:center;position:relative}
+.sc4-node-input{background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.08)}
+.sc4-node-branch{display:flex;flex-direction:column;gap:12px}
+.sc4-node-out{padding:14px 18px;border-radius:6px;text-align:left}
+.sc4-node-out.out-agent{background:rgba(229,57,53,.04);border:1px solid rgba(229,57,53,.15)}
+.sc4-node-out.out-human{background:rgba(108,92,231,.04);border:1px solid rgba(108,92,231,.15)}
+.sc4-arrow{font-family:'Inter',sans-serif;font-weight:900;font-size:18px;color:#E53935;padding:0 12px;flex-shrink:0}
+.sc4-node-title{font-family:'Inter',sans-serif;font-weight:900;font-size:13px;margin-bottom:4px;color:#000}
+.sc4-node-desc{font-family:'Inter',sans-serif;font-size:11px;line-height:1.5;opacity:.35}
+.sc4-node-out .sc4-node-title{font-size:12px}
+.sc4-node-out.out-agent .sc4-node-title{color:#E53935}
+.sc4-node-out.out-human .sc4-node-title{color:#6c5ce7}
+.sc4-diamond{width:40px;height:40px;background:rgba(0,0,0,.02);border:1px solid rgba(0,0,0,.1);transform:rotate(45deg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sc4-diamond span{transform:rotate(-45deg);font-family:'Inter',sans-serif;font-weight:900;font-size:10px;color:#E53935}
+
+/* ── S-Value ── */
+.sv{display:flex;flex-direction:column;justify-content:center;height:calc(100% - 96px)}
+.sv .sv-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);letter-spacing:-.03em;line-height:1.1;margin-bottom:32px;color:#000}
+.sv .sv-headline span{color:#E53935}
+
+.sv .sv-visual{display:flex;align-items:flex-end;gap:0;margin-bottom:32px;height:120px}
+.sv .sv-bar{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;flex:1;position:relative}
+.sv .sv-bar-fill{width:100%;border-radius:4px 4px 0 0;position:relative}
+.sv .sv-bar:nth-child(1) .sv-bar-fill{height:40px;background:linear-gradient(180deg,rgba(229,57,53,.6),rgba(229,57,53,.1))}
+.sv .sv-bar:nth-child(2) .sv-bar-fill{height:72px;background:linear-gradient(180deg,rgba(229,57,53,.7),rgba(229,57,53,.12))}
+.sv .sv-bar:nth-child(3) .sv-bar-fill{height:110px;background:linear-gradient(180deg,#E53935,rgba(229,57,53,.15))}
+.sv .sv-bar-label{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:8px;opacity:.25;color:#000}
+.sv .sv-bar:nth-child(3) .sv-bar-label{opacity:1;color:#E53935}
+
+.sv .sv-layers{display:flex;gap:0}
+.sv .sv-layer{flex:1;padding:20px;border-top:2px solid rgba(0,0,0,.06)}
+.sv .sv-layer:nth-child(3){border-top-color:#E53935}
+.sv .sv-layer-num{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.25;margin-bottom:8px}
+.sv .sv-layer:nth-child(3) .sv-layer-num{opacity:1;color:#E53935}
+.sv .sv-layer-title{font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:-.02em;margin-bottom:8px;color:#000}
+.sv .sv-layer-body{font-family:'Inter',sans-serif;font-size:12px;line-height:1.7;color:rgba(0,0,0,.35)}
+.sv .sv-layer-body strong{color:#000;font-weight:600}
+
+/* ── S-End ── */
+.se{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;height:100%}
+.se .quote{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(24px,3vw,42px);letter-spacing:-.03em;line-height:1.35;max-width:80%;color:#000}
+.se .quote span{color:#E53935}
+.se .quote-sub{font-family:'Inter',sans-serif;font-size:16px;font-weight:400;color:rgba(0,0,0,.3);margin-top:24px;line-height:1.6;max-width:65%}
+.se .red-rule{position:absolute;bottom:16.666%;left:0;width:33.333%;height:3px;background:#E53935}
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"><div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div><div class="v"></div></div>
+<div id="counter">01/09</div>
+
+<!-- ═══ 1 — TITLE ═══ -->
+<div class="slide active"><div class="s1">
+  <div class="phase-tag a0">Phase 3 · Now</div>
+  <div class="title-main a1">Change How</div>
+  <div class="title-sub a2">We Work</div>
+  <div class="author a3">Workflow Transformation After Data Layer Integration</div>
+  <div class="red-rule a4"></div>
+</div></div>
+
+<!-- ═══ 2 — BACKGROUND ═══ -->
+<div class="slide"><div class="s2">
+  <div class="section-label a0"><span class="label">Background</span></div>
+  <div class="content">
+    <div class="context-text a1">
+      Designers spend a significant amount of time <strong>not designing</strong> — but searching for information, aligning context, and tracking progress. Data lives across <em>Slack, Teams, Outlook, Linear, Scorecard</em> and more. When AI Agent gets <strong>direct access to these data sources</strong>, the way we work fundamentally changes.
+    </div>
+    <div class="phase-cards f1">
+      <div class="p-card">
+        <div class="p-card-label">Phase 1</div>
+        <div class="p-card-title">Get Everyone Started</div>
+        <div class="p-card-desc">AI curiosity across the team · Hands-on experimentation · Learning by doing</div>
+      </div>
+      <div class="p-card">
+        <div class="p-card-label">Phase 2</div>
+        <div class="p-card-title">Change How We Design</div>
+        <div class="p-card-desc">From static to dynamic systems · Designers becoming builders · AI-augmented craft</div>
+      </div>
+      <div class="p-card now">
+        <div class="p-card-label">Phase 3 · Now</div>
+        <div class="p-card-title">Change How We Work</div>
+        <div class="p-card-desc">AI as team memory & coordinator · Automated knowledge management · Intelligent workflows</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 3 — DATA SOURCES (Hub Diagram) ═══ -->
+<div class="slide"><div class="s3">
+  <div class="section-label a0"><span class="label">Data Layer</span></div>
+  <div class="s3-layout">
+    <div class="s3-left">
+      <div class="ds-headline a1">One agent, <span>five data sources</span></div>
+      <div class="ds-desc a2">A unified entry point that reads across all the platforms where work actually happens. One natural language request replaces switching between multiple apps.</div>
+    </div>
+    <div class="s3-right f1">
+      <div class="hub-diagram">
+        <svg class="hub-lines" viewBox="0 0 400 400">
+          <line x1="200" y1="200" x2="200" y2="32"/>
+          <line x1="200" y1="200" x2="368" y2="112"/>
+          <line x1="200" y1="200" x2="332" y2="332"/>
+          <line x1="200" y1="200" x2="68" y2="332"/>
+          <line x1="200" y1="200" x2="32" y2="112"/>
+        </svg>
+        <div class="hub-pulse p1"></div>
+        <div class="hub-pulse p2"></div>
+        <div class="hub-pulse p3"></div>
+        <div class="hub-center">AGENT</div>
+        <div class="hub-node n1"><div class="hn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z" stroke="#7B83EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 2v6h6" stroke="#7B83EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 13h3m-3 4h6m-6-8h1" stroke="#7B83EB" stroke-width="1.5" stroke-linecap="round"/></svg></div><div class="hn-name">Teams</div></div>
+        <div class="hub-node n2"><div class="hn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5 0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5c0 .83-.67 1.5-1.5 1.5z" fill="#E01E5A"/><path d="M20 10c-.83 0-1.5-.67-1.5-1.5V5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v3.5c0 .83-.67 1.5-1.5 1.5z" fill="#E01E5A"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h3.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-3.5c-.83 0-1.5-.67-1.5-1.5z" fill="#36C5F0"/><path d="M14 20c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5z" fill="#36C5F0"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5V19c0 .83-.67 1.5-1.5 1.5S8 19.83 8 19v-3.5c0-.83.67-1.5 1.5-1.5z" fill="#2EB67D"/><path d="M4 14c.83 0 1.5.67 1.5 1.5S4.83 17 4 17s-1.5-.67-1.5-1.5S3.17 14 4 14z" fill="#2EB67D"/><path d="M10 9.5c0 .83-.67 1.5-1.5 1.5H5c-.83 0-1.5-.67-1.5-1.5S4.17 8 5 8h3.5c.83 0 1.5.67 1.5 1.5z" fill="#ECB22E"/><path d="M10 4c0 .83-.67 1.5-1.5 1.5S7 4.83 7 4s.67-1.5 1.5-1.5S10 3.17 10 4z" fill="#ECB22E"/></svg></div><div class="hn-name">Slack</div></div>
+        <div class="hub-node n3"><div class="hn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#0078D4" stroke-width="1.5"/><path d="M3 7l9 5 9-5" stroke="#0078D4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="hn-name">Outlook</div></div>
+        <div class="hub-node n4"><div class="hn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h10" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round"/></svg></div><div class="hn-name">Linear</div></div>
+        <div class="hub-node n5"><div class="hn-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="#E53935" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="#2d8a4e" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="#0078D4" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="#ECB22E" stroke-width="1.5"/></svg></div><div class="hn-name">Score</div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 4 — SCENARIO 1 (with screenshot) ═══ -->
+<div class="slide"><div class="sc">
+  <div class="section-label a0"><span class="label">Scenarios</span></div>
+  <div class="sc-num a1">Scenario 01</div>
+  <div class="sc-title a2">Understanding Dev Progress</div>
+  <div class="sc-cols">
+    <div class="sc-col before a3">
+      <div class="sc-col-label">Before</div>
+      <div class="sc-col-body">
+        Open Teams, manually scroll through 30+ messages, piece together the full picture in my head. Context is scattered across multiple threads and time zones.
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="sc-col after a4">
+      <div class="sc-col-label">After</div>
+      <div class="sc-col-body">
+        One sentence: <strong>"Pull the recent conversation with dev"</strong> → Agent auto-fetches, organizes by timeline, highlights core topics and action items. Full picture in 30 seconds.
+        <div class="screenshot-placeholder f1" style="height:140px;margin-top:16px;border-radius:6px">
+          <div class="ph-icon">📸</div>
+          <div class="ph-label">Screenshot: Agent structured summary output</div>
+          <!-- Replace: add <img src="path-to-screenshot.png"> here -->
+        </div>
+      </div>
+      <div class="sc-change f2">
+        <div class="sc-change-label">What changed</div>
+        <div class="sc-change-text">From <strong>"scrolling through records"</strong> to <strong>"reading a summary"</strong>. Time saved goes directly into decision-making.</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 5 — SCENARIO 2 (two directions + screenshots) ═══ -->
+<div class="slide"><div class="sc2">
+  <div class="section-label a0"><span class="label">Scenarios</span></div>
+  <div class="sc-num a1">Scenario 02</div>
+  <div class="sc-title a2">Understanding Technical Feasibility</div>
+  <div class="sc-before a3"><strong>Before</strong> — Dev explains technical approach in Teams — code logic, feature flags, architecture coupling. I can only listen to one-sided output, sometimes still don't fully grasp the underlying logic, need extra time to build context and ask repeated questions to get aligned.</div>
+  <div class="sc-dirs">
+    <div class="sc-dir dir-a a4">
+      <div class="sc-dir-label">Direction A</div>
+      <div class="sc-dir-title">Digest & Transform</div>
+      <div class="sc-dir-body">
+        Agent reads Teams conversation, <strong>translates technical language</strong> into terms I understand. I extract feasibility and solutions, then <strong>transform them</strong> — into a proposal for dev, or a <strong>design demo</strong> (e.g. motion parameters → visual animation curve).
+      </div>
+      <div class="sc-dir-screenshot">
+        <div class="screenshot-placeholder f1" style="height:100px;border-radius:6px">
+          <div class="ph-icon">📸</div>
+          <div class="ph-label">Screenshot: Design demo / animation curve output</div>
+          <!-- Replace: add <img src="path-to-screenshot.png"> here -->
+        </div>
+      </div>
+    </div>
+    <div class="sc-dir dir-b a5">
+      <div class="sc-dir-label">Direction B</div>
+      <div class="sc-dir-title">Search Context & Bridge Gaps</div>
+      <div class="sc-dir-body">
+        I ask: <strong>"Has this been discussed before?"</strong> → Agent searches Slack, Outlook — finds discussion threads, requirement origins, historical decisions. Helps <strong>me understand background</strong> and helps <strong>dev discover context they might not know</strong>.
+      </div>
+      <div class="sc-dir-screenshot">
+        <div class="screenshot-placeholder f2" style="height:100px;border-radius:6px">
+          <div class="ph-icon">📸</div>
+          <div class="ph-label">Screenshot: Slack cross-search results summary</div>
+          <!-- Replace: add <img src="path-to-screenshot.png"> here -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sc-bottom f3">
+    <div class="sc-change-label">What changed</div>
+    <div class="sc-bottom-text">Technical discussion shifts from <strong>one-way output</strong> to <strong>two-way dialogue</strong>. Agent becomes an information bridge — I join with understanding and proposals, dev gains cross-team context.</div>
+  </div>
+</div></div>
+
+<!-- ═══ 6 — SCENARIO 3 (with screenshot) ═══ -->
+<div class="slide"><div class="sc">
+  <div class="section-label a0"><span class="label">Scenarios</span></div>
+  <div class="sc-num a1">Scenario 03</div>
+  <div class="sc-title a2">Understanding Leadership Focus</div>
+  <div class="sc-cols">
+    <div class="sc-col before a3">
+      <div class="sc-col-label">Before</div>
+      <div class="sc-col-body">
+        Scroll through Teams group chat, read weekly Top of Mind posts one by one, manually identify trends over multiple weeks. Easy to miss patterns when you're reading week by week.
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="sc-col after a4">
+      <div class="sc-col-label">After</div>
+      <div class="sc-col-body">
+        One sentence: <strong>"Summarize the manager's recent Top of Mind"</strong> → Agent pulls multi-week content, extracts core themes and evolution trends.
+        <div class="screenshot-placeholder f1" style="height:140px;margin-top:16px;border-radius:6px">
+          <div class="ph-icon">📸</div>
+          <div class="ph-label">Screenshot: Structured ToMs summary output</div>
+          <!-- Replace: add <img src="path-to-screenshot.png"> here -->
+        </div>
+      </div>
+      <div class="sc-change f2">
+        <div class="sc-change-label">What changed</div>
+        <div class="sc-change-text">Not just faster — able to see <strong>cross-week patterns</strong>. Discovering strategic alignment I <strong>hadn't noticed before</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 7 — SCENARIO 4 (Decision Flow) ═══ -->
+<div class="slide"><div class="sc">
+  <div class="section-label a0"><span class="label">Scenarios</span></div>
+  <div class="sc-num a1">Scenario 04</div>
+  <div class="sc-title a2">Delivering Conclusions to Teammates</div>
+  <div class="sc-cols">
+    <div class="sc-col before a3" style="flex:.6">
+      <div class="sc-col-label">Before</div>
+      <div class="sc-col-body">
+        Write summary myself, send via Teams. Accuracy depends on what I remember and how well I can articulate technical details.
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="sc-col after a4" style="flex:1.4">
+      <div class="sc-col-label">After — Decision Routing</div>
+      <div class="sc-col-body">
+        <div class="sc4-flow f1">
+          <div class="sc4-node sc4-node-input">
+            <div class="sc4-node-title">Agent Output</div>
+            <div class="sc4-node-desc">Structured summary<br>with citations</div>
+          </div>
+          <div class="sc4-arrow">→</div>
+          <div class="sc4-diamond"><span>?</span></div>
+          <div class="sc4-arrow">→</div>
+          <div class="sc4-node-branch">
+            <div class="sc4-node-out out-agent">
+              <div class="sc4-node-title">Agent Forwards</div>
+              <div class="sc4-node-desc">Technical details, PR links,<br>precedent citations</div>
+            </div>
+            <div class="sc4-node-out out-human">
+              <div class="sc4-node-title">I Follow Up</div>
+              <div class="sc4-node-desc">Design judgment, priority<br>calls, relationships</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-change f2">
+        <div class="sc-change-label">What changed</div>
+        <div class="sc-change-text">A <strong>decision routing</strong> step — let Agent do what Agent excels at (precise citation), let people do what people excel at (judgment, relationships).</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 8 — VALUE (Staircase) ═══ -->
+<div class="slide"><div class="sv">
+  <div class="section-label a0"><span class="label">Takeaways</span></div>
+  <div class="sv-headline a1">Three layers of <span>change</span></div>
+  <div class="sv-visual a2">
+    <div class="sv-bar"><div class="sv-bar-fill"></div><div class="sv-bar-label">Speed</div></div>
+    <div class="sv-bar"><div class="sv-bar-fill"></div><div class="sv-bar-label">Accuracy</div></div>
+    <div class="sv-bar"><div class="sv-bar-fill"></div><div class="sv-bar-label">Perspective</div></div>
+  </div>
+  <div class="sv-layers">
+    <div class="sv-layer a3">
+      <div class="sv-layer-num">Layer 01</div>
+      <div class="sv-layer-title">Speed</div>
+      <div class="sv-layer-body">Cross-platform info gathering compressed to <strong>a single natural language request</strong>. Eliminates <strong>context switching</strong> cost.</div>
+    </div>
+    <div class="sv-layer a4">
+      <div class="sv-layer-num">Layer 02</div>
+      <div class="sv-layer-title">Accuracy</div>
+      <div class="sv-layer-body">Agent <strong>cross-validates</strong> across platforms. Decisions shift from personal experience to <strong>evidence-backed</strong>.</div>
+    </div>
+    <div class="sv-layer a5">
+      <div class="sv-layer-num">Layer 03</div>
+      <div class="sv-layer-title">Perspective</div>
+      <div class="sv-layer-body">Discovers <strong>cross-domain connections</strong>: isolated bugs → systemic issues; daily practice → <strong>strategic alignment</strong>. Role evolves from receiving briefs to <strong>driving decisions</strong>.</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ═══ 9 — END ═══ -->
+<div class="slide"><div class="se">
+  <div class="section-label a0"><span class="label">Summary</span></div>
+  <div class="quote a1">
+    With data at your fingertips, every <span>conversation becomes sharper</span> and every <span>decision becomes grounded</span>.
+  </div>
+  <div class="quote-sub a2">
+    Phase 3's data layer integration gives designers immediate access to the context they need — across Teams, Slack, Outlook, Linear, and Scorecard. The result isn't just speed. It's more precise judgment and more effective communication with every teammate.
+  </div>
+  <div class="red-rule a3"></div>
+</div></div>
+
+<script>
+const slides=document.querySelectorAll('.slide'),counter=document.getElementById('counter');
+let cur=0;
+function go(n){slides[cur].classList.remove('active');cur=(n+slides.length)%slides.length;slides[cur].classList.add('active');counter.textContent=String(cur+1).padStart(2,'0')+'/'+String(slides.length).padStart(2,'0')}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1)}});
+document.addEventListener('click',e=>{e.clientX>window.innerWidth/2?go(cur+1):go(cur-1)});
+</script>
+<script src="https://demo-annotator-app.azurewebsites.net/widget.js"></script>
+</body>
+</html>
