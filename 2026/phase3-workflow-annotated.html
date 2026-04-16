@@ -471,5 +471,6 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')go(
 let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1)}});
 document.addEventListener('click',e=>{e.clientX>window.innerWidth/2?go(cur+1):go(cur-1)});
 </script>
+<script src="https://demo-annotator-app.azurewebsites.net/widget.js"></script>
 </body>
 </html>
