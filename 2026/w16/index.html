@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Update — David Chen · W16</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#FAFAFA;color:#000;-webkit-font-smoothing:antialiased}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;overflow:hidden}
+.slide.active{opacity:1;pointer-events:auto}
+#counter{position:fixed;top:28px;left:40px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;z-index:1000;color:#000;opacity:.5}
+
+:root{--red:#E53935;--blue:#1565C0;--yellow:#FFD600}
+.label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:4px}
+.tag{font-family:'Space Mono',monospace;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:2px;padding:2px 6px;display:inline-block;line-height:1}
+.tb{background:#000;color:#fff}
+.ty{background:var(--yellow);color:#000;border:2px solid #000}
+.tr{background:var(--red);color:#fff}
+.tg{background:#2d8a4e;color:#fff}
+.tbl{background:var(--blue);color:#fff}
+
+@keyframes scaleIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes drawLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fadeSlide{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fadeIn{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+
+.slide.active .shape-anim{animation:scaleIn .8s cubic-bezier(.16,1,.3,1) both}
+.slide.active .shape-d1{animation:scaleIn .8s cubic-bezier(.16,1,.3,1) .15s both}
+.slide.active .line-anim{animation:drawLine .9s cubic-bezier(.25,.1,.25,1) .2s both;transform-origin:left}
+.slide.active .a0{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) both}
+.slide.active .a1{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) .12s both}
+.slide.active .a2{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) .24s both}
+.slide.active .a3{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) .36s both}
+.slide.active .a4{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) .48s both}
+.slide.active .a5{animation:fadeSlide .6s cubic-bezier(.25,.1,.25,1) .6s both}
+
+/* ===== S1 — Title (Bauhaus) ===== */
+.s1{position:absolute;inset:0;background:#fff}
+.s1 .yellow-circle{position:absolute;bottom:-8vh;right:-5vw;width:50vh;height:50vh;background:var(--yellow);border-radius:50%}
+.s1 .red-diagonal{position:absolute;top:0;left:0;width:141.4%;height:2px;background:var(--red);transform-origin:top left;transform:rotate(25deg)}
+.s1 .small-blue-tri{position:absolute;top:72px;right:calc(5vw + 50vh*.4);width:0;height:0;border-left:24px solid transparent;border-right:24px solid transparent;border-bottom:42px solid var(--blue)}
+.s1 .content{position:absolute;top:50%;left:80px;transform:translateY(-50%);z-index:10}
+.s1 .tl{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(90px,12vw,180px);line-height:.85;text-transform:uppercase;letter-spacing:-0.05em}
+.s1 .sub{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:4px;margin-top:20px;opacity:.4}
+.s1 .date-block{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;letter-spacing:3px;margin-top:32px;background:#000;color:#fff;display:inline-block;padding:10px 18px}
+
+/* ===== S2 — Overview ===== */
+.s2{position:absolute;inset:0}
+.s2 .section-label{position:absolute;top:56px;left:72px;z-index:2}
+.s2 .section-label .label{border-bottom:2px solid var(--red);padding-bottom:4px}
+.s2 .blue-band{position:absolute;top:16%;left:0;right:0;height:30%;background:var(--blue);display:flex;align-items:center;padding:0 72px}
+.s2 .hero-text{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(22px,2.8vw,34px);line-height:1.2;letter-spacing:-0.03em;color:#fff;max-width:85%}
+.s2 .overview-area{position:absolute;left:72px;top:calc(16% + 30% + 28px);right:72px}
+.s2 .overview-area li{font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;list-style:none;margin-bottom:6px;color:#424245;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.s2 .overview-area li:last-child{border-bottom:none}
+.s2 .overview-area li::before{content:"/ ";font-weight:900;color:var(--red)}
+.s2 .overview-area li strong{font-weight:900;color:#000}
+.s2 .yellow-dot{position:absolute;bottom:48px;left:72px;width:20px;height:20px;background:var(--yellow);border-radius:50%}
+.s2 .red-dot{position:absolute;bottom:48px;left:108px;width:12px;height:12px;background:var(--red);border-radius:50%}
+
+/* ===== Content slide template (S3-S6 share this) ===== */
+.cs .section-label{position:absolute;top:56px;left:72px;z-index:2}
+.cs .section-label .label{border-bottom:2px solid var(--red);padding-bottom:4px}
+.cs .page-header{position:absolute;top:100px;left:72px;right:72px;bottom:52%}
+.cs .page-headline{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(24px,3vw,40px);letter-spacing:-0.03em;line-height:1.12;margin-bottom:14px}
+.cs .page-headline span{color:var(--red)}
+.cs .page-desc{font-family:'Inter',sans-serif;font-size:13px;color:#86868b;line-height:1.65;max-width:80%}
+.cs .page-desc strong{font-weight:600;color:#333}
+.cs .items{position:absolute;top:52%;left:72px;right:72px;bottom:48px;display:flex;flex-direction:column;justify-content:flex-start;border-top:2px solid rgba(0,0,0,.06);padding-top:12px}
+.cs .row{display:flex;align-items:baseline;padding:7px 0}
+.cs .row-dot{width:5px;height:5px;background:var(--red);border-radius:50%;flex-shrink:0;margin-right:12px;margin-top:5px}
+.cs .row-content{flex:1;display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.cs .row-text{flex:1}
+.cs .row-name{font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:#424245;display:inline}
+.cs .row-desc{font-family:'Inter',sans-serif;font-weight:400;font-size:12px;color:#86868b;display:inline;margin-left:4px}
+.cs .row-desc strong{font-weight:700;color:#333}
+.cs .row-tag{flex-shrink:0}
+.cs .red-accent{position:absolute;bottom:0;right:0;width:8.333%;height:3px;background:var(--red)}
+
+.slide.active .cs .row:nth-child(1){animation:fadeIn .4s ease .2s both}
+.slide.active .cs .row:nth-child(2){animation:fadeIn .4s ease .26s both}
+.slide.active .cs .row:nth-child(3){animation:fadeIn .4s ease .32s both}
+.slide.active .cs .row:nth-child(4){animation:fadeIn .4s ease .38s both}
+.slide.active .cs .row:nth-child(5){animation:fadeIn .4s ease .44s both}
+.slide.active .cs .row:nth-child(6){animation:fadeIn .4s ease .50s both}
+.slide.active .cs .row:nth-child(7){animation:fadeIn .4s ease .56s both}
+
+/* ===== S4 special: card blocks ===== */
+.cs .page-headline .hl-blue{color:var(--blue)}
+.s4-cards{position:absolute;top:46%;left:72px;right:72px;bottom:48px;display:flex;gap:24px}
+.s4-card{flex:1;padding:24px;border-top:3px solid rgba(0,0,0,.08);display:flex;flex-direction:column}
+.s4-card.accent{border-top-color:var(--red)}
+.s4-card-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;opacity:.3;margin-bottom:12px}
+.s4-card.accent .s4-card-label{opacity:.7;color:var(--red)}
+.s4-card-title{font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:-0.02em;margin-bottom:8px}
+.s4-card-desc{font-family:'Inter',sans-serif;font-size:12px;color:#86868b;line-height:1.65;flex:1}
+.s4-card-desc strong{font-weight:700;color:#333}
+.slide.active .s4-card:nth-child(1){animation:fadeSlide .5s ease .15s both}
+.slide.active .s4-card:nth-child(2){animation:fadeSlide .5s ease .3s both}
+.slide.active .s4-card:nth-child(3){animation:fadeSlide .5s ease .45s both}
+
+/* ===== S5 — Lebun Bauhaus ===== */
+.s5{position:absolute;inset:0}
+.s5 .section-label{position:absolute;top:56px;left:72px;z-index:3}
+.s5 .section-label .label{border-bottom:2px solid var(--red);padding-bottom:4px}
+.s5 .phase-title{position:absolute;top:50px;right:72px;font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(40px,5vw,72px);letter-spacing:-0.04em;z-index:3}
+.s5 .s5-headline{position:absolute;top:110px;left:72px;right:200px;z-index:3;font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(22px,2.8vw,36px);letter-spacing:-0.03em;line-height:1.15}
+.s5 .s5-headline span{color:var(--red)}
+.s5 .s5-desc{position:absolute;top:200px;left:72px;right:72px;font-family:'Inter',sans-serif;font-size:13px;color:#86868b;line-height:1.65;max-width:75%;z-index:3}
+.s5 .s5-desc strong{font-weight:600;color:#333}
+.s5 .s5-cards{position:absolute;top:48%;left:72px;right:72px;bottom:48px;display:flex;gap:20px;z-index:3}
+.s5 .s5-card{flex:1;padding:28px 24px 20px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.s5 .s5-card.c-yellow{background:#fff;border-left:6px solid var(--yellow)}
+.s5 .s5-card.c-red{background:#fff;border-left:6px solid var(--red)}
+.s5 .s5-card.c-blue{background:#fff;border-left:6px solid var(--blue)}
+.s5 .s5-card .geo{position:absolute;pointer-events:none}
+.s5 .s5-card.c-yellow .geo{width:140px;height:140px;border-radius:50%;background:var(--yellow);opacity:.12;bottom:-40px;right:-40px}
+.s5 .s5-card.c-red .geo{width:0;height:0;border-left:80px solid transparent;border-right:80px solid transparent;border-bottom:140px solid var(--red);opacity:.08;bottom:-40px;right:-30px}
+.s5 .s5-card.c-blue .geo{width:120px;height:120px;background:var(--blue);opacity:.07;bottom:-35px;right:-35px}
+.s5 .s5-card-num{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(44px,5vw,72px);letter-spacing:-0.05em;line-height:1;margin-bottom:4px}
+.s5 .s5-card.c-yellow .s5-card-num{color:var(--yellow)}
+.s5 .s5-card.c-red .s5-card-num{color:var(--red)}
+.s5 .s5-card.c-blue .s5-card-num{color:var(--blue)}
+.s5 .s5-card-label{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px}
+.s5 .s5-card.c-yellow .s5-card-label{color:#9e8c00}
+.s5 .s5-card.c-red .s5-card-label{color:var(--red)}
+.s5 .s5-card.c-blue .s5-card-label{color:var(--blue)}
+.s5 .s5-card-title{font-family:'Inter',sans-serif;font-weight:900;font-size:15px;letter-spacing:-0.02em;margin-bottom:10px}
+.s5 .s5-card-list{list-style:none}
+.s5 .s5-card-list li{font-family:'Inter',sans-serif;font-size:12px;color:#555;line-height:1.7;padding:2px 0}
+.s5 .s5-card-list li::before{content:"— ";font-weight:700;opacity:.25}
+.s5 .s5-card-list li strong{font-weight:700;color:#000}
+.slide.active .s5 .s5-card:nth-child(1){animation:fadeSlide .5s ease .2s both}
+.slide.active .s5 .s5-card:nth-child(2){animation:fadeSlide .5s ease .32s both}
+.slide.active .s5 .s5-card:nth-child(3){animation:fadeSlide .5s ease .44s both}
+
+/* ===== S6 — News Update ===== */
+.s6{position:absolute;inset:0}
+.s6 .section-label{position:absolute;top:56px;left:72px;z-index:3}
+.s6 .section-label .label{border-bottom:2px solid var(--red);padding-bottom:4px}
+.s6 .news-grid{position:absolute;left:72px;right:72px;top:100px;bottom:56px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:center}
+.s6 .news-item{padding:20px;background:#fff;border-left:4px solid rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
+.s6 .news-item.ni-red{border-left-color:var(--red)}
+.s6 .news-item.ni-blue{border-left-color:var(--blue)}
+.s6 .news-item.ni-yellow{border-left-color:var(--yellow)}
+.s6 .news-item.ni-black{border-left-color:#000}
+.s6 .news-title{font-family:'Inter',sans-serif;font-weight:900;font-size:14px;letter-spacing:-0.01em;margin-bottom:4px}
+.s6 .news-desc{font-family:'Inter',sans-serif;font-size:12px;color:#86868b;line-height:1.55;flex:1}
+.s6 .news-desc strong{font-weight:700;color:#333}
+.s6 .news-tag{position:absolute;top:20px;right:20px}
+.slide.active .s6 .news-item:nth-child(1){animation:fadeSlide .4s ease .15s both}
+.slide.active .s6 .news-item:nth-child(2){animation:fadeSlide .4s ease .25s both}
+.slide.active .s6 .news-item:nth-child(3){animation:fadeSlide .4s ease .32s both}
+.slide.active .s6 .news-item:nth-child(4){animation:fadeSlide .4s ease .39s both}
+.slide.active .s6 .news-item:nth-child(5){animation:fadeSlide .4s ease .46s both}
+
+/* ===== S7 — Next Week ===== */
+.s7{position:absolute;inset:0}
+.s7 .texture-grid{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.s7 .sq{position:absolute;width:18px;height:18px;opacity:.06}
+.s7 .title-area{position:absolute;top:56px;left:72px}
+.s7 .mind{font-family:'Inter',sans-serif;font-weight:900;font-size:clamp(64px,8vw,120px);line-height:.88;text-transform:uppercase;letter-spacing:-0.04em;z-index:2}
+.s7 .accent-bar{width:48px;height:3px;background:var(--red);margin-top:20px}
+.s7 .sub-desc{position:absolute;top:calc(clamp(64px,8vw,120px)*1.8 + 56px);left:72px;right:72px;font-family:'Inter',sans-serif;font-size:13px;color:#86868b;line-height:1.5;max-width:480px;z-index:2}
+.s7 .sub-desc strong{font-weight:700;color:#000}
+.s7 .items-area{position:absolute;top:50%;left:72px;right:16.666%;transform:translateY(-30%);z-index:2}
+.s7 .nw-item{display:flex;align-items:baseline;justify-content:space-between;padding:18px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.s7 .nw-item:first-child{border-top:1px solid rgba(0,0,0,.06)}
+.s7 .nw-bullet{width:8px;height:8px;background:var(--red);flex-shrink:0;margin-right:20px;margin-top:5px}
+.s7 .nw-text{flex:1}
+.s7 .nw-name{font-family:'Inter',sans-serif;font-weight:900;font-size:16px;letter-spacing:-0.02em}
+.s7 .nw-desc{font-family:'Inter',sans-serif;font-size:12px;opacity:.25;margin-top:2px}
+.s7 .nw-tag{flex-shrink:0;margin-left:20px}
+.s7 .red-circle-sm{position:absolute;bottom:48px;right:72px;width:24px;height:24px;background:var(--red);border-radius:50%;z-index:2}
+.s7 .yellow-rect-sm{position:absolute;bottom:48px;right:112px;width:40px;height:12px;background:var(--yellow);z-index:2}
+
+.slide.active .s7 .nw-item:nth-child(1){animation:fadeSlide .5s ease .12s both}
+.slide.active .s7 .nw-item:nth-child(2){animation:fadeSlide .4s ease .18s both}
+.slide.active .s7 .nw-item:nth-child(3){animation:fadeSlide .4s ease .24s both}
+.slide.active .s7 .nw-item:nth-child(4){animation:fadeSlide .4s ease .30s both}
+.slide.active .s7 .nw-item:nth-child(5){animation:fadeSlide .4s ease .36s both}
+</style>
+</head>
+<body>
+
+<div id="counter">01/07</div>
+
+<!-- ========== S1 — TITLE ========== -->
+<div class="slide active"><div class="s1">
+  <div class="yellow-circle shape-anim"></div>
+  <div class="red-diagonal line-anim"></div>
+  <div class="small-blue-tri shape-d1"></div>
+  <div class="content">
+    <div class="tl a0">WEEKLY<br>UPDATE</div>
+    <div class="sub a1">David Chen · Copilot Mac Design</div>
+    <div class="date-block a2">04.13 — 04.17</div>
+  </div>
+</div></div>
+
+<!-- ========== S2 — OVERVIEW ========== -->
+<div class="slide"><div class="s2">
+  <div class="section-label a0"><span class="label">Overview</span></div>
+  <div class="blue-band"><div class="hero-text a1">Composer drag-expand progressing to cross-team alignment, built Phase 3 data workflow sharing deck, upgraded Lebun v2.3</div></div>
+  <ul class="overview-area">
+    <li class="a2"><strong>Composer drag-expand</strong> — owned <strong>root cause analysis</strong> for MAC-11472, found <strong>3 Slack precedents</strong>, drove alignment with Pengfei → now <strong>escalating to wChromium PM Lia + Jen</strong></li>
+    <li class="a3"><strong>Data-based workflow</strong> — distilled data-layer practice into <strong>9-slide methodology deck + TTS script</strong>, using Chromium multi-tabs as core case, aligned to <strong>Shanying's AI Transformation</strong> framework</li>
+    <li class="a4"><strong>Lebun v2.3</strong> — infra upgrade (7 scripts + 6 MCP + 7 launchd), reply speed improved to <strong>~15s</strong>, new <strong>GIF + emoji reaction</strong>, outbox pipeline, <strong>5 bug fixes</strong></li>
+    <li class="a5"><strong>Mac production</strong> — Chromium <strong>dogfood DMG ready</strong>, Vision GA shipped, Journeys 50% Stable, Google <strong>Gemini Mac</strong> direct competitor launched</li>
+  </ul>
+  <div class="yellow-dot shape-anim"></div>
+  <div class="red-dot shape-d1"></div>
+</div></div>
+
+<!-- ========== S3 — COPILOT MAC DESIGN ========== -->
+<div class="slide"><div class="cs">
+  <div class="section-label a0"><span class="label">01 · Copilot Mac Design</span></div>
+  <div class="page-header">
+    <div class="page-headline a1">Composer drag-expand: from <span>bug investigation to cross-team escalation</span> — now coordinating with wChromium PM</div>
+    <div class="page-desc a2">Independently investigated <strong>MAC-11472</strong>, found <strong>multi-tabs stopPropagation</strong> blocking drag events. Searched Slack for <strong>3 prior fixes</strong> (Runyuan PR#27509, Walter PR#15089, Health pages PR#27370), confirmed <strong>SurfaceConfig</strong> as the standard path. Pengfei agreed to <strong>decouple</strong>, Jie Liu pulling in <strong>wChromium PM Lia + Jen</strong>.</div>
+  </div>
+  <div class="items">
+    <div class="row"><div class="row-dot"></div><div class="row-content"><div class="row-text"><div class="row-name">Composer Drag-Expand → Cross-Team Escalation</div><div class="row-desc">— <strong>MAC-11472</strong> root cause found, <strong>3 Slack precedents</strong>, SurfaceConfig path confirmed, Pengfei agreed decouple, Jie Liu pulling in <strong>Lia + Jen</strong></div></div><div class="row-tag"><span class="tag tr">LEAD</span></div></div></div>
+    <div class="row"><div class="row-dot"></div><div class="row-content"><div class="row-text"><div class="row-name">Sidebar Interaction — Collapse Memory + Design Review</div><div class="row-desc">— Replied Yang Shen: sidebar will have <strong>collapse memory</strong>. <strong>MAC-11745</strong> Lu Yang comment pending. Joined CM Design Review on <strong>side panel sticky/divider</strong> logic</div></div><div class="row-tag"><span class="tag ty">ACTIVE</span></div></div></div>
+    <div class="row"><div class="row-dot"></div><div class="row-content"><div class="row-text"><div class="row-name">FRE Copy — "Including Windows" Removed</div><div class="row-desc">— Pengfei confirmed fix shipped. Notified <strong>May Yu + Liya Yong</strong></div></div><div class="row-tag"><span class="tag tg">FIXED</span></div></div></div>
+    <div class="row"><div class="row-dot"></div><div class="row-content"><div class="row-text"><div class="row-name">Code Tracking — 4 PRs + IS_MAC Guard Issue</div><div class="row-desc">— PRs <strong>#1388 #1406 #1408 #1410</strong>. Chengzhi Li: CMC code needs <strong>copilot::IsCopilotProcess()</strong>, not just IS_MAC</div></div><div class="row-tag"><span class="tag tb">TRACK</span></div></div></div>
+    <div class="row"><div class="row-dot"></div><div class="row-content"><div class="row-text"><div class="row-name">Dogfood Build — New Package with Multi-Person Bug Fix</div><div class="row-desc">— Lu Yang delivered new dogfood build with <strong>multi-person bug fix CP</strong></div></div><div class="row-tag"><span class="tag tb">TRACK</span></div></div></div>
+  </div>
+  <div class="red-accent"></div>
+</div></div>
+
+<!-- ========== S4 — DATA-BASED WORKFLOW VIDEO ========== -->
+<div class="slide"><div class="cs">
+  <div class="section-label a0"><span class="label">02 · Data-Based Workflow Video</span></div>
+  <div class="page-header">
+    <div class="page-headline a1">Built Phase 3 data workflow deck — <span class="hl-blue">4 real scenarios with Chromium adoption case</span>, shared with team</div>
+    <div class="page-desc a2">Captured how integrating <strong>data tools</strong> (Kusto, Titan, OCV, Slack semantic search) changed design decision-making. Built <strong>"Phase 3 in Action"</strong> — <strong>9-slide deck</strong> with <strong>4 real scenarios</strong> using <strong>Chromium multi-tabs adoption</strong> as core case study. Aligned to <strong>Shanying's AI Transformation three-phase framework</strong>. Deployed on GitHub Pages, delivered to Saber and shared with <strong>internal design MC team</strong>.</div>
+  </div>
+  <div class="s4-cards">
+    <div class="s4-card">
+      <div class="s4-card-label">Context</div>
+      <div class="s4-card-title">1:1 with Saber — Workflow Shift</div>
+      <div class="s4-card-desc">Shared how <strong>integrating data layer</strong> (Kusto, Titan, OCV, Slack semantic search) fundamentally changed my <strong>design workflow</strong>. Saber suggested turning it into a <strong>shareable video</strong> for the team.</div>
+    </div>
+    <div class="s4-card accent">
+      <div class="s4-card-label">How</div>
+      <div class="s4-card-title">9 Slides · 4 Real Scenarios</div>
+      <div class="s4-card-desc">Built <strong>"Phase 3 in Action"</strong> deck with <strong>Chromium multi-tabs adoption</strong> as core case. Three-layer value: <strong>Speed / Accuracy / Perspective</strong>. Aligned to <strong>Shanying AI Transformation</strong> 3-phase framework.</div>
+    </div>
+    <div class="s4-card">
+      <div class="s4-card-label">Result</div>
+      <div class="s4-card-title">Delivered + Shared with CM Team</div>
+      <div class="s4-card-desc">Deployed to <strong>GitHub Pages</strong>. Delivered to Saber, shared with <strong>internal design CM team</strong> for broader reference.</div>
+    </div>
+  </div>
+  <div class="red-accent"></div>
+</div></div>
+
+<!-- ========== S5 — LEBUN v2.3 ========== -->
+<div class="slide"><div class="s5">
+  <div class="section-label a0"><span class="label">03 · Lebun Agent</span></div>
+  <div class="phase-title a1">v2.3</div>
+  <div class="s5-headline a2">Upgraded local environment — <span>faster replies, new abilities, better stability</span></div>
+  <div class="s5-desc a3">Hive <strong>v2.2 → v2.3</strong>. Refreshed scripts and MCP configs, switched to HTTP for faster replies, added new Teams interaction capabilities, and fixed reliability issues.</div>
+  <div class="s5-cards">
+    <div class="s5-card c-yellow">
+      <div class="geo"></div>
+      <div class="s5-card-num">7+</div>
+      <div class="s5-card-label">Infrastructure</div>
+      <div class="s5-card-title">Platform refreshed</div>
+      <ul class="s5-card-list">
+        <li><strong>7 scripts + 4 MCP</strong> updated</li>
+        <li>Added <strong>2 new MCP + Codex</strong> plugin</li>
+        <li><strong>7 launchd</strong> services auto-start</li>
+      </ul>
+    </div>
+    <div class="s5-card c-red">
+      <div class="geo"></div>
+      <div class="s5-card-num">3</div>
+      <div class="s5-card-label">New Abilities</div>
+      <div class="s5-card-title">React, GIF, outbox</div>
+      <ul class="s5-card-list">
+        <li><strong>Emoji reaction</strong> — LLM auto-selects</li>
+        <li><strong>GIF send</strong> via Tenor + hostedContents</li>
+        <li><strong>Outbox pipeline</strong> — Big Agent → Lebun</li>
+      </ul>
+    </div>
+    <div class="s5-card c-blue">
+      <div class="geo"></div>
+      <div class="s5-card-num">~15s</div>
+      <div class="s5-card-label">Reliability</div>
+      <div class="s5-card-title">Faster + more stable</div>
+      <ul class="s5-card-list">
+        <li>Reply <strong>CLI → HTTP</strong>, improved to <strong>~15s</strong></li>
+        <li>Token + Slack cache <strong>auto-refresh</strong></li>
+        <li>Fixed <strong>5 bugs</strong>, brief <strong>9→10 AM</strong></li>
+      </ul>
+    </div>
+  </div>
+</div></div>
+
+<!-- ========== S6 — NEWS UPDATE ========== -->
+<div class="slide"><div class="s6">
+  <div class="section-label a0"><span class="label">04 · News Update</span></div>
+  <div class="news-grid">
+    <div class="news-item ni-red" style="grid-column:1/3;border-left-width:6px;padding:28px 32px">
+      <span class="tag tr news-tag">SHIP</span>
+      <div class="news-title" style="font-size:18px;margin-bottom:6px">Copilot Mac — Production Dogfood Ready</div>
+      <div class="news-desc"><strong>DMG + aka.ms/maccopilot</strong> ready. <strong>26 PRs</strong> merged, <strong>~50 bugs</strong> resolved. Broader rollout planned for <strong>next week</strong>.</div>
+    </div>
+    <div class="news-item ni-blue">
+      <span class="tag tg news-tag">LIVE</span>
+      <div class="news-title">Vision GA — Shipped 4/17</div>
+      <div class="news-desc">Studio Vision GA + <strong>On-Demand Tool Call</strong> live this week</div>
+    </div>
+    <div class="news-item ni-blue">
+      <span class="tag tbl news-tag">FLIGHT</span>
+      <div class="news-title">Journeys — 50% Stable Flight</div>
+      <div class="news-desc">External Stable <strong>50% flight</strong> launched. <strong>Voice chat</strong> demo shared</div>
+    </div>
+    <div class="news-item ni-yellow">
+      <span class="tag ty news-tag">WATCH</span>
+      <div class="news-title">New Brand Direction</div>
+      <div class="news-desc"><strong>Bebop explores</strong> Figma shared. 2026 Brand may affect <strong>Mac visual direction</strong></div>
+    </div>
+    <div class="news-item ni-black">
+      <span class="tag tb news-tag">COMP</span>
+      <div class="news-title">Google Gemini Mac Launched</div>
+      <div class="news-desc">Native macOS, <strong>menu bar</strong>, <strong>system-wide text generation</strong> — direct competitor</div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ========== S7 — NEXT WEEK ========== -->
+<div class="slide"><div class="s7">
+  <div class="texture-grid" id="texture"></div>
+  <div class="title-area a0"><div class="mind">NEXT<br>WEEK</div><div class="accent-bar"></div></div>
+  <div class="sub-desc a1">Priority: <strong>close the composer cross-team thread</strong> with wChromium PM. Continue sidebar spec and production dogfood quality review.</div>
+  <div class="items-area">
+    <div class="nw-item"><div class="nw-bullet"></div><div class="nw-text"><div class="nw-name">Composer Cross-Team</div><div class="nw-desc">Join wChromium thread with Lia + Jen, scope the decouple fix</div></div><div class="nw-tag"><span class="tag tr">PRIORITY</span></div></div>
+    <div class="nw-item"><div class="nw-bullet"></div><div class="nw-text"><div class="nw-name">MAC-11745 Sidebar</div><div class="nw-desc">Respond to Lu Yang's comment, finalize sidebar behavior spec</div></div><div class="nw-tag"><span class="tag ty">DESIGN</span></div></div>
+    <div class="nw-item"><div class="nw-bullet"></div><div class="nw-text"><div class="nw-name">Production Dogfood</div><div class="nw-desc">Design quality review on production build once PRs merge</div></div><div class="nw-tag"><span class="tag tb">ONGOING</span></div></div>
+  </div>
+  <div class="red-circle-sm shape-anim"></div>
+  <div class="yellow-rect-sm shape-d1"></div>
+</div></div>
+
+<script>
+(function(){
+  var g=document.getElementById('texture');
+  var colors=['#E53935','#1565C0','#FFD600'];
+  var step=80;
+  for(var y=-20;y<window.innerHeight+40;y+=step){
+    for(var x=-20;x<window.innerWidth+40;x+=step){
+      var sq=document.createElement('div');
+      sq.className='sq';
+      sq.style.left=(x+(y/step%2)*step/2)+'px';
+      sq.style.top=y+'px';
+      sq.style.background=colors[Math.floor(Math.random()*3)];
+      sq.style.transform='rotate(45deg)';
+      g.appendChild(sq);
+    }
+  }
+})();
+(function(){
+  var c=0,s=document.querySelectorAll('.slide'),t=s.length,ct=document.getElementById('counter'),lk=false;
+  function p(n){return n<10?'0'+n:''+n}
+  function go(i){
+    if(i<0||i>=t||i===c||lk)return;lk=true;
+    var o=s[c];o.classList.remove('active');
+    o.querySelectorAll('.row,.nw-item,.page-headline,.page-desc,[class*="a0"],[class*="a1"],[class*="a2"],[class*="a3"],[class*="a4"],[class*="a5"]').forEach(function(e){e.style.animation='none';void e.offsetHeight;e.style.animation=''});
+    c=i;s[c].classList.add('active');ct.textContent=p(c+1)+'/'+p(t);
+    setTimeout(function(){lk=false},500);
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();go(c+1)}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();go(c-1)}
+  });
+  var tx=0;
+  document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX});
+  document.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(c+(d<0?1:-1))});
+  document.addEventListener('click',function(e){
+    if(e.target.closest('.tag,a,button'))return;
+    if(e.clientX>innerWidth*.65)go(c+1);else if(e.clientX<innerWidth*.35)go(c-1);
+  });
+})();
+</script>
+</body>
+</html>
